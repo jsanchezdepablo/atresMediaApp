@@ -1,8 +1,12 @@
 {
-  "name": "front-end-test",
+  "name": "atresmedia-project",
   "version": "1.0.0",
   "description": "",
-  "keywords": [],
+  "keywords": [
+    "react",
+    "ecmascript6",
+    "javascript"
+  ],
   "main": "src/index.js",
   "dependencies": {
     "react": "16.8.3",
