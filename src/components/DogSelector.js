@@ -6,9 +6,11 @@ import { getDogTypes } from "../actions/dogActions";
 import CardActions from "@material-ui/core/CardActions";
 import IconButton from "@material-ui/core/IconButton";
 import Save from "@material-ui/icons/Save";
+import CircularProgress from "@material-ui/core/CircularProgress";
 
 const mapStateToProps = state => ({
-  dogTypes: state.dogState.dogTypes
+  dogTypes: state.dogState.dogTypes,
+  dataReady: state.dogState.dataReady
 });
 
 const mapDispatchToProps = dispatch => ({
@@ -16,19 +18,15 @@ const mapDispatchToProps = dispatch => ({
 });
 
 class DogSelector extends React.Component {
-  static defaultProps = {
-    pets: [{ value: 0, label: "hola" }]
-  };
-
   state = {
     data: {
-      selectorValue: "BTC"
+      selectorValue: "0"
     }
   };
 
   componentDidMount = () => {
     console.log("pido datos");
-    //this.props.getTypes();
+    this.props.getTypes();
   };
 
   buildOptions = options =>
@@ -37,7 +35,7 @@ class DogSelector extends React.Component {
 
       return (
         <MenuItem key={value} value={value}>
-          {label}
+          {`Raza: ${label}`}
         </MenuItem>
       );
     });
@@ -51,11 +49,11 @@ class DogSelector extends React.Component {
   handleSave = event => {
     event.preventDefault();
     const { selectorValue } = this.state.data;
-    this.props.setType(selectorValue);
+    //this.props.setType(selectorValue);
   };
 
   render = () => {
-    const { dogTypes } = this.props;
+    const { dogTypes, dataReady } = this.props;
     const { selectorValue } = this.state.data;
 
     return (
@@ -63,13 +61,15 @@ class DogSelector extends React.Component {
         <TextField
           id={"combo-pets"}
           select
-          label={"Selector de animales"}
+          label={"Seleccione una raza en concreto"}
           fullWidth
           onChange={this.handleChange}
           value={selectorValue}
+          disabled={!dataReady}
         >
           {this.buildOptions(dogTypes)}
         </TextField>
+        {!dataReady && <CircularProgress size={60} />}
         <CardActions>
           <IconButton id={"communicationFormSave"} onClick={this.handleSave}>
             <Save />
@@ -80,4 +80,7 @@ class DogSelector extends React.Component {
   };
 }
 
-export default connect(mapStateToProps,mapDispatchToProps)(DogSelector);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(DogSelector);

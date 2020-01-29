@@ -3,30 +3,25 @@ import { createReducer } from "./reducerHelper";
 const initialState = {
   dogTypes: [
     {
-      value: "USD",
-      label: "$"
-    },
-    {
-      value: "EUR",
-      label: "€"
-    },
-    {
-      value: "BTC",
-      label: "฿"
-    },
-    {
-      value: "JPY",
-      label: "¥"
+      value: "0",
+      label: "Pulse en el desplegable"
     }
-  ]
+  ],
+  dataReady: false
 };
 
 const getDogTypesSuccess = (state, action) => {
-  console.log("traigo datos");
+  const { dogTypes: dogObjectTypes } = action.payload;
+
   return {
-    ...state
+    ...state,
+    dogTypes: parsedToValueLabel(dogObjectTypes),
+    dataReady: true
   };
 };
+
+const parsedToValueLabel = types =>
+  Object.keys(types).map(type => ({ value: type, label: type }));
 
 const dogReducer = createReducer(initialState, {
   GET_DOG_TYPES_SUCCESS: getDogTypesSuccess
