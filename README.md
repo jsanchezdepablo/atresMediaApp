@@ -1,2 +1,0 @@
-# atresMediaApp
-Created with CodeSandbox
