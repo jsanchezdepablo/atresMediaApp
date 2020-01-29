@@ -1,5 +1,3 @@
-const Header = () => {
-  return "Soy la cabecera";
-};
+const Header = () => <h1>Proyecto de prueba para Atresmedia</h1>;
 
 export default Header;
