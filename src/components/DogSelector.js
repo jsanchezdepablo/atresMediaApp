@@ -2,10 +2,10 @@ import React from "react";
 import { connect } from "react-redux";
 import TextField from "@material-ui/core/TextField";
 import MenuItem from "@material-ui/core/MenuItem";
-import { getDogTypes } from "../actions/dogActions";
+import { getDogTypes, getDogImages } from "../actions/dogActions";
 import CardActions from "@material-ui/core/CardActions";
 import IconButton from "@material-ui/core/IconButton";
-import Save from "@material-ui/icons/Save";
+import ImageSearch from "@material-ui/icons/ImageSearch";
 import CircularProgress from "@material-ui/core/CircularProgress";
 
 const mapStateToProps = state => ({
@@ -14,13 +14,14 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  getTypes: () => dispatch(getDogTypes())
+  getTypes: () => dispatch(getDogTypes()),
+  getImages: credentials => dispatch(getDogImages(credentials))
 });
 
 class DogSelector extends React.Component {
   state = {
     data: {
-      selectorValue: "0"
+      selectorValue: ""
     }
   };
 
@@ -35,7 +36,7 @@ class DogSelector extends React.Component {
 
       return (
         <MenuItem key={value} value={value}>
-          {`Raza: ${label}`}
+          {this.capitalizeFirstLetter(label)}
         </MenuItem>
       );
     });
@@ -46,11 +47,16 @@ class DogSelector extends React.Component {
     this.setState({ data: { selectorValue: value } });
   };
 
-  handleSave = event => {
+  handleGetImages = event => {
     event.preventDefault();
     const { selectorValue } = this.state.data;
-    //this.props.setType(selectorValue);
+    this.props.getImages({ selectorValue });
   };
+
+  capitalizeFirstLetter = str =>
+    str.substring(0, 1).toUpperCase() + str.substring(1);
+
+  getImages = () => {};
 
   render = () => {
     const { dogTypes, dataReady } = this.props;
@@ -61,7 +67,9 @@ class DogSelector extends React.Component {
         <TextField
           id={"combo-pets"}
           select
-          label={"Seleccione una raza en concreto"}
+          label={
+            "Seleccione una raza y pulse en el botón de abajo para obtener imágenes"
+          }
           fullWidth
           onChange={this.handleChange}
           value={selectorValue}
@@ -71,10 +79,14 @@ class DogSelector extends React.Component {
         </TextField>
         {!dataReady && <CircularProgress size={60} />}
         <CardActions>
-          <IconButton id={"communicationFormSave"} onClick={this.handleSave}>
-            <Save />
+          <IconButton
+            id={"communicationFormSave"}
+            onClick={this.handleGetImages}
+          >
+            <ImageSearch />
           </IconButton>
         </CardActions>
+        {this.getImages()}
       </div>
     );
   };

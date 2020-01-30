@@ -1,8 +1,11 @@
 import { call, put, takeLatest } from "redux-saga/effects";
-import { getDogTypes as getDogTypesRequest } from "../providers/dogProvider";
-import { getDogTypesSuccess } from "../actions/dogActions";
+import {
+  getDogTypes as getDogTypesRequest,
+  getDogImages as getDogImagesRequest
+} from "../providers/dogProvider";
+import { getDogTypesSuccess, getDogImagesSuccess } from "../actions/dogActions";
 
-export const getDogTypes = function*(action) {
+export const getDogTypes = function*() {
   try {
     const response = yield call(getDogTypesRequest);
 
@@ -16,4 +19,23 @@ export const getDogTypes = function*(action) {
   }
 };
 
-export const dogSagas = () => [takeLatest("GET_DOG_TYPES", getDogTypes)];
+export const getDogImages = function*(action) {
+  try {
+    const { selectorValue } = action.payload;
+
+    const response = yield call(getDogImagesRequest, { selectorValue });
+
+    yield put(
+      getDogImagesSuccess({
+        dogImages: response.data.message
+      })
+    );
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+export const dogSagas = () => [
+  takeLatest("GET_DOG_TYPES", getDogTypes),
+  takeLatest("GET_DOG_TYPE_IMAGES", getDogImages)
+];

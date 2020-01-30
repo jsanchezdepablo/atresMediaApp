@@ -3,10 +3,11 @@ import { createReducer } from "./reducerHelper";
 const initialState = {
   dogTypes: [
     {
-      value: "0",
-      label: "Pulse en el desplegable"
+      value: "",
+      label: ""
     }
   ],
+  dogImages: [],
   dataReady: false
 };
 
@@ -20,10 +21,22 @@ const getDogTypesSuccess = (state, action) => {
   };
 };
 
+const getDogImagesSuccess = (state, action) => {
+  debugger;
+
+  const { dogImages } = action.payload;
+  return {
+    ...state,
+    dogImages
+  };
+};
+
 const parsedToValueLabel = types =>
   Object.keys(types).map(type => ({ value: type, label: type }));
 
 const dogReducer = createReducer(initialState, {
-  GET_DOG_TYPES_SUCCESS: getDogTypesSuccess
+  GET_DOG_TYPES_SUCCESS: getDogTypesSuccess,
+  GET_DOG_TYPE_IMAGES_SUCCESS: getDogImagesSuccess
 });
+
 export default dogReducer;
