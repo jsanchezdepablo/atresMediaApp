@@ -1,6 +1,6 @@
 import { createReducer } from "./reducerHelper";
 
-const initialState = {
+export const initialState = {
   dogTypes: [
     {
       value: "",

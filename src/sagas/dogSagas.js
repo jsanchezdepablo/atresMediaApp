@@ -5,7 +5,7 @@ import {
 } from "../providers/dogProvider";
 import { getDogTypesSuccess, getDogImagesSuccess } from "../actions/dogActions";
 
-export const getDogTypes = function*() {
+const getDogTypes = function*() {
   try {
     const response = yield call(getDogTypesRequest);
 
@@ -19,7 +19,7 @@ export const getDogTypes = function*() {
   }
 };
 
-export const getDogImages = function*(action) {
+const getDogImages = function*(action) {
   try {
     const { selectorValue } = action.payload;
 
