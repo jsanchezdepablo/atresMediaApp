@@ -8,7 +8,8 @@ const initialState = {
     }
   ],
   dogImages: [],
-  dataReady: false
+  dataReady: false,
+  hasImages: false
 };
 
 const getDogTypesSuccess = (state, action) => {
@@ -21,15 +22,11 @@ const getDogTypesSuccess = (state, action) => {
   };
 };
 
-const getDogImagesSuccess = (state, action) => {
-  debugger;
-
-  const { dogImages } = action.payload;
-  return {
-    ...state,
-    dogImages
-  };
-};
+const getDogImagesSuccess = (state, action) => ({
+  ...state,
+  dogImages: action.payload.dogImages,
+  hasImages: true
+});
 
 const parsedToValueLabel = types =>
   Object.keys(types).map(type => ({ value: type, label: type }));

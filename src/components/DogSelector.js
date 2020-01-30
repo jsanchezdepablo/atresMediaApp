@@ -7,10 +7,13 @@ import CardActions from "@material-ui/core/CardActions";
 import IconButton from "@material-ui/core/IconButton";
 import ImageSearch from "@material-ui/icons/ImageSearch";
 import CircularProgress from "@material-ui/core/CircularProgress";
+import styled from "styled-components";
 
 const mapStateToProps = state => ({
   dogTypes: state.dogState.dogTypes,
-  dataReady: state.dogState.dataReady
+  dataReady: state.dogState.dataReady,
+  dogImages: state.dogState.dogImages,
+  hasImages: state.dogState.hasImages
 });
 
 const mapDispatchToProps = dispatch => ({
@@ -26,7 +29,6 @@ class DogSelector extends React.Component {
   };
 
   componentDidMount = () => {
-    console.log("pido datos");
     this.props.getTypes();
   };
 
@@ -56,10 +58,23 @@ class DogSelector extends React.Component {
   capitalizeFirstLetter = str =>
     str.substring(0, 1).toUpperCase() + str.substring(1);
 
-  getImages = () => {};
+  setImages = () => {
+    const { dogImages } = this.props;
+    const { selectorValue } = this.state.data;
+
+    return dogImages.map(img => (
+      <StyledImg
+        src={img}
+        key={img}
+        height="200"
+        width="200"
+        alt={selectorValue}
+      />
+    ));
+  };
 
   render = () => {
-    const { dogTypes, dataReady } = this.props;
+    const { dogTypes, dataReady, hasImages } = this.props;
     const { selectorValue } = this.state.data;
 
     return (
@@ -86,11 +101,18 @@ class DogSelector extends React.Component {
             <ImageSearch />
           </IconButton>
         </CardActions>
-        {this.getImages()}
+        {hasImages && this.setImages()}
       </div>
     );
   };
 }
+
+const StyledImg = styled.img`
+  && {
+    border: 3px solid black;
+    margin: 5px;
+  }
+`;
 
 export default connect(
   mapStateToProps,
