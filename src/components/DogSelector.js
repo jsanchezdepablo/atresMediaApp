@@ -83,7 +83,7 @@ class DogSelector extends React.Component {
           id={"combo-pets"}
           select
           label={
-            "Seleccione una raza y pulse en el botón de abajo para obtener imágenes"
+            "Seleccione una raza y pulse en el botón de abajo para obtener las imágenes"
           }
           fullWidth
           onChange={this.handleChange}
